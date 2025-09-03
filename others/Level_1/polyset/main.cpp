@@ -7,10 +7,13 @@
 //end new code
 
 #include <iostream>
+#include <stdio.h>
 
 int main(int argc, char **argv) {
   if (argc == 1)
     return 1;
+  printf("hola\n");
+  std::cout << "hola\n";
   searchable_bag *t = new searchable_tree_bag;
   searchable_bag *a = new searchable_array_bag;
 
