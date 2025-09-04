@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "searchable_bag.hpp"
 
 class set {

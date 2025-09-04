@@ -3,12 +3,14 @@
 set::set(searchable_bag& b) : bag_ref(b) {}
 
 void set::insert(int n) {
-	bag_ref.insert(n);
+	if (!bag_ref.has(n))
+		bag_ref.insert(n);
 }
 
 void set::insert(int *n, int size) {
 	for (int i = 0; size > i; i++) {
-		insert(n[i]);
+		if (!bag_ref.has(n[i]))
+			insert(n[i]);
 	}
 }
 

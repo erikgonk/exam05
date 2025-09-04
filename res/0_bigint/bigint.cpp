@@ -26,19 +26,6 @@ std::ostream& operator<<(std::ostream& os, const bigint& n){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 bigint::bigint(const bigint& other) {
     digits = other.digits;
 }

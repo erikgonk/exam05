@@ -1,4 +1,14 @@
-#include "life.h"
+// #include "life.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>//for read
+#include <stdbool.h>// for bool
+
+#define LIVE_CELL '0'
+#define DEAD_CELL ' '
+
+
 
 void	free_board(char **board, int height)
 {
@@ -142,3 +152,21 @@ void	game_of_life(int width, int height, int iteration)
 	print_board(new_board, width, height);
 	free_board(new_board, height);
 }
+
+int     main(int argc, char **argv)
+{
+    if (argc != 4)
+        return (1);
+    
+    int width = atoi(argv[1]);
+    int height = atoi(argv[2]);
+    int iteration = atoi(argv[3]);
+
+	//width and height cannot be less or equal to 0, and iteration cannot be lesser than 0
+	if (width <= 0 || height <= 0 || iteration < 0)
+		return (1);
+
+    game_of_life(width, height, iteration);
+    return (0);
+}
+

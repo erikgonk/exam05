@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
   tmp.has(1);
 
   set sa(*a);
-  set st(*t);
+  set st(*a);
   for (int i = 1; i < argc; i++) {
     st.insert(atoi(argv[i]));
     sa.insert(atoi(argv[i]));
@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
     sa.get_bag().print();
     st.print();
     sa.clear();
+    sa.insert((int[]){1,2,3,4,},4);
     sa.insert((int[]){1,2,3,4,},4);
 
     printf("--------\n");
