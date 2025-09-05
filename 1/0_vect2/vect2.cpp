@@ -24,21 +24,6 @@ vect2::vect2(int num1, int num2)
 	this->y = num2;
 }
 
-// vect2::vect2(const vect2& source)
-// {
-// 	*this = source;
-// }
-
-// vect2& vect2::operator=(const vect2& source)
-// {
-// 	if(this != &source)
-// 	{
-// 		this->x = source.x;
-// 		this->y = source.y;
-// 	}
-// 	return(*this);
-// }
-
 int vect2::operator[](int index) const
 {
 	if(index == 0)
@@ -61,6 +46,13 @@ vect2 vect2::operator-() const
 	return(temp);
 }
 
+vect2 vect2::operator-(const vect2& obj) const
+{
+	vect2 temp = *this;
+	temp.x -= obj.x;
+	temp.y -= obj.y;
+	return(temp);
+}
 
 vect2 vect2::operator*(int num) const
 {
@@ -105,14 +97,6 @@ vect2 vect2::operator+(const vect2& obj) const
 
 	temp.x += obj.x;
 	temp.y += obj.y;
-	return(temp);
-}
-
-vect2 vect2::operator-(const vect2& obj) const
-{
-	vect2 temp = *this;
-	temp.x -= obj.x;
-	temp.y -= obj.y;
 	return(temp);
 }
 
@@ -165,12 +149,6 @@ bool vect2::operator!=(const vect2& obj) const
 {
 	return(!(obj == *this));
 }
-
-vect2::~vect2()
-{
-
-}
-
 
 std::ostream& operator<<(std::ostream& os,const vect2& obj)
 {

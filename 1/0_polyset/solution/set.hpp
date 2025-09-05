@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "searchable_bag.hpp"
 
 class set {
@@ -16,6 +15,6 @@ class set {
 
         void print() const;
         void clear();
-
+ 
         const searchable_bag& get_bag() const;
 };

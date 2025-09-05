@@ -8,7 +8,7 @@
 
 class set {
 	private:
-		searchable_bag& bag_ref();
+		searchable_bag& bag_ref;
 	public:
 		set(searchable_bag& bag_ref);
 		void insert(int);

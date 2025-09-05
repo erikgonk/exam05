@@ -33,6 +33,7 @@ bigint::bigint(const bigint& other) {
 bigint bigint::operator+(const bigint& other) const{
     bigint result;
     result.digits.clear();
+
     int carry = 0;
     size_t i = 0;
 
@@ -76,18 +77,18 @@ bigint bigint::operator++(int){
 
 bigint bigint::operator>>(unsigned int n) const{
     bigint result = *this;
-    if (n >= result.digits.size()){
+    if (n >= result.digits.size()) {
         result.digits = "0";
-    }else{
+    } else {
         result.digits.erase(0, n);
     }
     return result;
 }
 
 bigint& bigint::operator>>=(unsigned int n){
-    if (n >= digits.size()){
+    if (n >= digits.size()) {
         digits = "0";
-    }else{
+    } else {
         digits.erase(0, n);
     }
     return *this;

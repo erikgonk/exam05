@@ -3,9 +3,8 @@
 set::set(searchable_bag& b) : bag_ref(b) {}
 
 void set::insert(int value) {
-    if (!bag_ref.has(value)) {
+    if (!bag_ref.has(value))
         bag_ref.insert(value);
-    }
 }
 
 void set::insert(int* values, int count) {

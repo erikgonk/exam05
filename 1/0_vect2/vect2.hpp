@@ -23,11 +23,11 @@ class vect2
 	public:
 		vect2();
 		vect2(int num1, int num2);
-		// vect2(const vect2& source);
-		// vect2& operator=(const vect2& source);
-
+	
 		int operator[](int index) const;
-		int& operator[](int index); // NON-COST
+		int& operator[](int index);
+
+		friend std::ostream& operator<<(std::ostream& os, const vect2& obj);
 
 		vect2 operator-() const;
 		vect2 operator*(int num) const;
@@ -49,12 +49,9 @@ class vect2
 
 		bool operator==(const vect2& obj) const;
 		bool operator!=(const vect2& obj) const;
-
-		~vect2();
 };
 
 vect2 operator*(int num, const vect2& obj);
 
-std::ostream& operator<<(std::ostream& os,const vect2& obj);
 
 #endif

@@ -6,7 +6,7 @@
 
 class bigint{
     private:
-    std::string digits;
+        std::string digits;
 
     public:
         bigint(); // default -> 0
