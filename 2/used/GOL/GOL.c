@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 		else if (c == 's')
 			yp++;
 		else if (c == 'a')
-			xp--;
+			xp--; 
 		else if (c == 'd')
 			xp++;
 		else if (c == 'x')

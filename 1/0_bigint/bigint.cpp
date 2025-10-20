@@ -10,7 +10,8 @@ bigint::bigint(unsigned int n){
         return;
     }
     while (n > 0) {
-        digits = digits + static_cast<char>('0' + (n%10));
+        char x = ('0' + (n%10));
+        digits = digits + x;
         n = n/10;
     }
 }
@@ -30,23 +31,33 @@ bigint::bigint(const bigint& other) {
     digits = other.digits;
 }
 
-bigint bigint::operator+(const bigint& other) const{
-    bigint result;
-    result.digits.clear();
+// bigint bigint::operator+(const bigint& other) const{
+//     bigint result;
+//     result.digits.clear();
 
-    int carry = 0;
-    size_t i = 0;
+//     int carry = 0;
+//     size_t i = 0;
 
-    while(i < digits.size() || i < other.digits.size() || carry != 0) {
-        int digit1 = (i < digits.size()) ? digits[i] - '0' : 0;
-        int digit2 = (i < other.digits.size()) ? other.digits[i] - '0' : 0;
+//     while(i < digits.size() || i < other.digits.size() || carry != 0) {
+//         int digit1 = (i < digits.size()) ? digits[i] - '0' : 0;
+//         int digit2 = (i < other.digits.size()) ? other.digits[i] - '0' : 0;
 
-        int sum = digit1 + digit2 + carry;
-        result.digits += (sum % 10)+ '0';
-        carry = sum / 10;
-        i++;
-    }
-    return result;
+//         int sum = digit1 + digit2 + carry;
+//         result.digits += (sum % 10) + '0';
+//         carry = sum / 10;
+//         i++;
+//     }
+//     return result;
+// }
+
+#include <sstream>
+
+int sumInt(std::string s) {
+	std::stringstream str(s);
+	unsigned int res;
+	str >> res;
+	return res;
+
 }
 
 bigint& bigint::operator+=(const bigint& other){
@@ -58,6 +69,25 @@ bigint bigint::operator<<(unsigned int n) const{
     bigint result = *this;
     result.digits.insert(0, n, '0');
     return result;
+}
+
+bigint bigint::operator+(const bigint& other) const{
+	bigint res;
+	res.digits.clear();
+
+	int i = 0;
+	int carry = 0;
+
+	while (carry > 0 || i < digits[i] || i < other.digits.size()) {
+		int d1 = (i < digits.size()) ? digits[i] - '0' : 0;
+		int d2 = (i < other.digits.size()) ? other.digits[i] - '0' : 0;
+		
+		int sum = carry + d1 + d2;
+		res.digits += (sum%10) + '0';
+		carry = sum / 10;
+		i++;
+	}
+	return res;
 }
 
 bigint& bigint::operator<<=(unsigned int n){

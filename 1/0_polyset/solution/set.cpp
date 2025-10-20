@@ -8,9 +8,9 @@ void set::insert(int value) {
 }
 
 void set::insert(int* values, int count) {
-    for (int i = 0; i < count; ++i) {
-        insert(values[i]); // has()
-    }
+    for (int i = 0; i < count; ++i)
+        if (!bag_ref.has(values[i]))
+            insert(values[i]);
 }
 
 bool set::has(int value) const {

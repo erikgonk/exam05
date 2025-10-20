@@ -5,7 +5,7 @@
 typedef struct {
     int lines, width;
     char empty, obstacle, full;
-    char **map;
+    char *map;
     int sq_dimension;
     int sq_x_start;
     int sq_y_start;
@@ -34,7 +34,7 @@ void print_filled_map(Map *map)
                 y >= map->sq_y_start && y < map->sq_y_start + map->sq_dimension)
                 fprintf(stdout, "%c", map->full);
             else
-                fprintf(stdout, "%c", map->map[y][x]);
+                fprintf(stdout, "%c", map->map[y * map->width + x]);
             x++;
         }
         y++;
@@ -53,7 +53,7 @@ int check_square(Map *map, int x_start, int y_start, int dimension)
         x = 0;
         while (x < dimension)
         {
-            if (map->map[y_start + y][x_start + x] == map->obstacle)
+            if (map->map[(y_start + y) * map->width + (x_start + x)] == map->obstacle)
                 return (0);
             x++;
         }
@@ -103,7 +103,6 @@ Map* read_map(char *filename) {
     FILE *file = filename ? fopen(filename, "r") : stdin;
     if (!file)
         return NULL;
-
     // Leemos la primera linea y guardamos los valores correspondientes
     Map *map = malloc(sizeof(Map));
     if (fscanf(file, "%d %c %c %c\n", &map->lines, &map->empty, &map->obstacle, &map->full) != 4) {
@@ -112,16 +111,42 @@ Map* read_map(char *filename) {
             fclose(file);
         return NULL;
     }
-
-    map->map = malloc(map->lines * sizeof(char*));
     map->width = 0;
     int i = 0;
 
+    // Read first line to determine width
+    char *line = NULL;
+    size_t len = 0;
+    if (getline(&line, &len, file) == -1) {
+        free(map);
+        if (filename)
+            fclose(file);
+        return NULL;
+    }
+
+    // Remove newline
+    int line_len = ft_strlen(line);
+    if (line[line_len - 1] == '\n')
+        line[line_len - 1] = '\0';
+
+    map->width = ft_strlen(line);
+    map->map = malloc(map->lines * map->width * sizeof(char));
+
+    // Copy first line
+    int j = 0;
+    while (j < map->width) {
+        map->map[0 * map->width + j] = line[j];
+        j++;
+    }
+    free(line);
+    i = 1;
+
     // Recorremos linea por linea, guardandola en el mapa.
     while (i < map->lines) {
-        char *line = NULL;
-        size_t len = 0;
+        line = NULL;
+        len = 0;
         if (getline(&line, &len, file) == -1) {
+            free(map->map);
             free(map);
             if (filename)
                 fclose(file);
@@ -129,20 +154,26 @@ Map* read_map(char *filename) {
         }
 
         // Remove newline
-        int line_len = ft_strlen(line);
+        line_len = ft_strlen(line);
         if (line[line_len - 1] == '\n')
             line[line_len - 1] = '\0';
 
-        if (i == 0)
-            map->width = ft_strlen(line);
-        else if (ft_strlen(line) != map->width) {
+        if (ft_strlen(line) != map->width) {
+            free(line);
+            free(map->map);
             free(map);
             if (filename)
                 fclose(file);
             return NULL;
         }
 
-        map->map[i] = line;
+        // Copy line to map->map
+        j = 0;
+        while (j < map->width) {
+            map->map[i * map->width + j] = line[j];
+            j++;
+        }
+        free(line);
         i++;
     }
 
@@ -168,7 +199,7 @@ int validate_map(Map *map)
     while (i < map->lines) {
         int j = 0;
         while (j < map->width) {
-            char c = map->map[i][j];
+            char c = map->map[i * map->width + j];
             if (c != map->empty && c != map->obstacle)
                 return 0;
             j++;
@@ -179,14 +210,8 @@ int validate_map(Map *map)
 }
 
 void free_map(Map *map) {
-    int i = 0;
-
     if (!map)
         return;
-    while (i < map->lines) {
-        free(map->map[i]);
-        i++;
-    }
     free(map->map);
     free(map);
 }
